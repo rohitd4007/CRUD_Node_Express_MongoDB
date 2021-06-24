@@ -4,12 +4,15 @@ const mongoose = require("mongoose")
 const app = express();
 const User = require("./Model/UserModel")
 
+
+app.use(express.json())
+
 const port = 8080;
 app.listen(port, () => {
     console.log("started at port 8080 ")
 });
 
-// get all users data
+////get all users data
 app.get("/", async(req, res) => {
     try {
         const user = await User.find();
@@ -48,13 +51,14 @@ app.get("/:id", async(req, res) => {
 
 
 
+
 //post -- create new user
 
 
 app.post("/", async(req, res) => {
     try {
         const user = await User.create(req.body);
-        console.log(user)
+        console.log(user.name)
         res.status(201).json({
             status: 'sucess',
             data: { user },
@@ -68,22 +72,20 @@ app.post("/", async(req, res) => {
 })
 
 
-app.get("/", async(req, res) => {
+app.patch("/:id", async(req, res) => {
     try {
-        const user = await User.find();
-
+        const new_User = await User.findByIdAndUpdate(req.params.id, req.body);
         res.status(201).json({
-            status: 'sucess',
-            data: { user },
-        });
+            data: new_User,
+            status: 'sucess'
+        })
     } catch (err) {
-        req.status(404).json({
-            status: 'not found',
-            message: err,
-        });
+        res.status(404).json({
+            status: "not found",
+            message: err
+        })
     }
 })
-
 
 
 
