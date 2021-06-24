@@ -9,7 +9,7 @@ app.listen(port, () => {
     console.log("started at port 8080 ")
 });
 
-
+// get all users data
 app.get("/", async(req, res) => {
     try {
         const user = await User.find();
@@ -27,10 +27,65 @@ app.get("/", async(req, res) => {
 })
 
 
+//get single user data based on "id"
 
-// app.get("/", (req, res) => {
-//     res.send("hello from backend")
-// })
+app.get("/:id", async(req, res) => {
+    try {
+
+        const user = await User.findById(req.params.id);
+        console.log(user)
+        res.status(201).json({
+            status: 'sucess',
+            data: { user },
+        });
+    } catch (err) {
+        req.status(404).json({
+            status: 'not found',
+            message: err,
+        });
+    }
+})
+
+
+
+//post -- create new user
+
+
+app.post("/", async(req, res) => {
+    try {
+        const user = await User.create(req.body);
+        console.log(user)
+        res.status(201).json({
+            status: 'sucess',
+            data: { user },
+        });
+    } catch (err) {
+        req.status(404).json({
+            status: 'not found',
+            message: err,
+        });
+    }
+})
+
+
+app.get("/", async(req, res) => {
+    try {
+        const user = await User.find();
+
+        res.status(201).json({
+            status: 'sucess',
+            data: { user },
+        });
+    } catch (err) {
+        req.status(404).json({
+            status: 'not found',
+            message: err,
+        });
+    }
+})
+
+
+
 
 mongoose.connect(dbConfig.url, {
     useNewUrlParser: true,
