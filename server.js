@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const dbConfig = require("./Config/dbConfig")
 const mongoose = require("mongoose")
 const userRoutes = require("./Routes/UserRoute");
@@ -6,8 +6,8 @@ const app = express();
 app.use(express.json())
 
 //connecting to port 8080
-const port = process.env.port || 8080;
-app.listen(port, () => {
+const port = 8080;
+app.listen(process.env.PORT || 8080, () => {
     console.log("started at port 8080 ")
 });
 
